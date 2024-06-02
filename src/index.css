@@ -11,3 +11,7 @@ nav {
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+
+nav ul li.active {
+  color: blue;
+}
