@@ -4,7 +4,7 @@ import userImg from "../../assets/user.png";
 
 export default function Header() {
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded style={{ backgroundColor: "whitesmoke" }}>
       <Navbar.Brand href="/">
         <span className="self-center whitespace-nowrap text-xl font-semibold">
           EarnBuddy

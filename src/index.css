@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: whitesmoke;
+  font-family: cursive;
+}
+
+nav {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
