@@ -8,7 +8,7 @@ export default function NotFound() {
         <p className="text-2xl text-black font-bold">Page not found! :(</p>
 
         <Link to={"/"}>
-          <Button color={"success"}>Back to Home</Button>
+          <Button color={"info"}>Back to Home</Button>
         </Link>
       </div>
     </>

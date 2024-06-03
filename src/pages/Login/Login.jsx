@@ -1,8 +1,10 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +16,10 @@ export default function Login() {
 
   return (
     <div>
+      <Helmet>
+        <title>EarnBuddy || Login</title>
+      </Helmet>
+
       <form
         className="flex max-w-md flex-col gap-4 border-2 border-blue-600 mx-auto my-10 p-5 rounded-xl shadow-2xl"
         onSubmit={handleSubmit}
