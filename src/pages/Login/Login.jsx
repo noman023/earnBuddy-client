@@ -5,13 +5,46 @@ import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const { logIn, loginWithGoogle } = useAuth();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("submitted");
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    logIn(data.email, data.password)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Logged in successfully",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        });
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    loginWithGoogle()
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Logged in successfully",
+        });
+      })
+      .catch((err) =>
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        })
+      );
   };
 
   return (
@@ -22,7 +55,7 @@ export default function Login() {
 
       <form
         className="flex max-w-md flex-col gap-4 border-2 border-blue-600 mx-auto my-10 p-5 rounded-xl shadow-2xl"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <div>
           <div className="mb-2 block">
@@ -30,9 +63,9 @@ export default function Login() {
           </div>
 
           <TextInput
+            {...register("email")}
             id="email1"
             type="email"
-            name="email"
             placeholder="name@example.com"
             required
           />
@@ -44,9 +77,9 @@ export default function Login() {
           </div>
 
           <TextInput
+            {...register("password")}
             id="password1"
             type={showPassword ? "text" : "password"}
-            name="password"
             placeholder="password"
             required
           />
@@ -76,7 +109,12 @@ export default function Login() {
         </Button>
 
         <p className="text-lg text-black font-bold text-center">Or</p>
-        <Button type="button" gradientDuoTone="cyanToBlue">
+
+        <Button
+          onClick={handleGoogleLogin}
+          type="button"
+          gradientDuoTone="cyanToBlue"
+        >
           Login with Google
           <FcGoogle className="text-lg ml-2" />
         </Button>
