@@ -1,11 +1,34 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { CiBadgeDollar } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import userImg from "../../assets/user.png";
+import useAuth from "../../hooks/useAuth";
+import SpinnerComponent from "../Spinner/Spinner";
 
 export default function Header() {
-  const user = true;
+  const { user, logOut, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "LogOut successfully",
+        });
+
+        // navigate to home after logout
+        navigate("/");
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        });
+      });
+  };
 
   return (
     <Navbar fluid rounded style={{ backgroundColor: "whitesmoke" }}>
@@ -20,18 +43,28 @@ export default function Header() {
         <Dropdown
           arrowIcon={false}
           inline
-          label={<Avatar alt="User settings" img={userImg} rounded />}
+          label={
+            loading ? (
+              <SpinnerComponent />
+            ) : (
+              <Avatar
+                alt="User image"
+                img={user?.photoURL ? `${user.photoURL}` : userImg}
+                rounded
+              />
+            )
+          }
         >
           {user ? (
             <>
               <Dropdown.Header>
-                <span className="block text-sm">Bonnie Green</span>
+                <span className="block text-sm">{user?.displayName}</span>
                 <span className="block truncate text-sm font-medium">
-                  name@flowbite.com
+                  {user?.email}
                 </span>
               </Dropdown.Header>
 
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item onClick={handleLogOut}>Sign out</Dropdown.Item>
             </>
           ) : (
             <Link to={"/login"}>

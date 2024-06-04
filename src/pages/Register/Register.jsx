@@ -1,16 +1,42 @@
 import { Button, Label, Select, TextInput } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const { createUser } = useAuth();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("register submitted");
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    createUser(data.email, data.password)
+      .then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Registered successfully",
+        });
+
+        // navigate to home after register
+        navigate("/");
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "warning",
+          title: err.message,
+        });
+      });
   };
 
   return (
@@ -20,7 +46,7 @@ export default function Register() {
       </Helmet>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex max-w-md flex-col gap-4 border-2 border-blue-500 mx-auto my-10 p-5 rounded-xl shadow-2xl"
       >
         <div>
@@ -29,9 +55,9 @@ export default function Register() {
           </div>
 
           <TextInput
+            {...register("name")}
             id="name1"
             type="text"
-            name="name"
             placeholder="Your name"
             required
           />
@@ -43,9 +69,9 @@ export default function Register() {
           </div>
 
           <TextInput
+            {...register("email")}
             id="email1"
             type="email"
-            name="email"
             placeholder="name@example.com"
             required
           />
@@ -53,10 +79,15 @@ export default function Register() {
 
         <div className="max-w-md">
           <div className="mb-2 block">
-            <Label htmlFor="countries" value="Why you're here for?" />
+            <Label htmlFor="role" value="Why you're here for?" />
           </div>
-          <Select id="countries" required>
-            <option>---</option>
+          <Select
+            defaultValue={"null"}
+            id="role"
+            {...register("role")}
+            required
+          >
+            <option value="null">---</option>
             <option value={"worker"}>I'm a Job Seeker</option>
             <option value={"taskCreator"}>I'm an Employee Seeker </option>
           </Select>
@@ -64,41 +95,61 @@ export default function Register() {
 
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="photoUrl1" value="Photo Url" />
+            <Label htmlFor="photoUrl1" value="Profile Image" />
           </div>
 
           <TextInput
+            {...register("photo")}
             id="photoUrl1"
             type="text"
-            name="photoUrl"
             placeholder="photo url"
             required
           />
         </div>
 
-        <div className="relative">
-          <div className="mb-2 block">
-            <Label htmlFor="password1" value="Password" />
+        {/* password field */}
+        <div>
+          <div className="relative">
+            <div className="mb-2 block">
+              <Label htmlFor="password1" value="Password" />
+            </div>
+
+            <TextInput
+              {...register("password", {
+                minLength: 6, //passowrd should be 6 character long
+                // passowrd should have 1 uppercase, lowercase and special character and 1 number
+                pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+              })}
+              id="password1"
+              type={showPassword ? "text" : "password"}
+              placeholder="password"
+              required
+            />
+
+            {/* eye icons */}
+            {showPassword ? (
+              <FaEye
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 bottom-3 text-xl cursor-pointer text-gray-500"
+              />
+            ) : (
+              <FaEyeSlash
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 bottom-3 text-xl cursor-pointer text-gray-500"
+              />
+            )}
           </div>
 
-          <TextInput
-            id="password1"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="password"
-            required
-          />
+          {/* show error message while typing if requirements not met */}
+          {errors.password?.type === "minLength" && (
+            <p className="text-red-600">Password must be 6 characters long</p>
+          )}
 
-          {showPassword ? (
-            <FaEye
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 bottom-3 text-xl cursor-pointer text-gray-500"
-            />
-          ) : (
-            <FaEyeSlash
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 bottom-3 text-xl cursor-pointer text-gray-500"
-            />
+          {errors.password?.type === "pattern" && (
+            <p className="text-red-600">
+              Password must have 1 Uppercase, 1 lower case, 1 number and 1
+              special character.
+            </p>
           )}
         </div>
 
