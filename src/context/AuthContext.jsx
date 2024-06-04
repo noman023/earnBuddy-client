@@ -9,6 +9,8 @@ import {
 } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 
+import { app } from "../firebase/firebase.config";
+
 // create context
 export const AuthContext = createContext(null);
 
@@ -16,7 +18,7 @@ export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setloading] = useState(true);
 
-  const auth = getAuth();
+  const auth = getAuth(app);
   const googleAuthProvider = new GoogleAuthProvider();
 
   //   create user with email and password
