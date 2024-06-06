@@ -33,6 +33,7 @@ export default function AuthContextProvider({ children }) {
 
   // update user profile
   const updateUserProfile = (name, photo) => {
+    setloading(true);
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photo,
@@ -53,6 +54,7 @@ export default function AuthContextProvider({ children }) {
 
   // create user with google
   const loginWithGoogle = () => {
+    setloading(true);
     return signInWithPopup(auth, googleAuthProvider);
   };
 

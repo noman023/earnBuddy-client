@@ -1,4 +1,4 @@
-import { Button, Label, Select, TextInput } from "flowbite-react";
+import { Button, FileInput, Label, Select, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -9,6 +9,9 @@ import Swal from "sweetalert2";
 
 import useAuth from "../../hooks/useAuth";
 import useAxiosInstance from "../../hooks/useAxiosInstance";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,37 +27,55 @@ export default function Register() {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     // add coins based on role
     const coins = data.role === "worker" ? 10 : 50;
 
-    createUser(data.email, data.password).then(() => {
-      // update profile
-      updateUserProfile(data.name, data.photo)
+    // host image to imgbb
+    const imageFile = { image: data.photo[0] };
+    const response = await axiosInstace.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    const imgUrl = response.data.data.display_url;
+
+    if (response.data.success) {
+      createUser(data.email, data.password)
         .then(() => {
-          const userInfo = {
-            email: data.email,
-            role: data.role,
-            coins,
-          };
+          // update profile
+          updateUserProfile(data.name, imgUrl)
+            .then(() => {
+              const userInfo = {
+                email: data.email,
+                role: data.role,
+                coins,
+              };
 
-          // create user in db
-          axiosInstace.post("/users", userInfo).then((res) => {
-            if (res.data.insertedId) {
-              reset(); // reset form
+              // create user in db
+              axiosInstace.post("/users", userInfo).then((res) => {
+                if (res.data.insertedId) {
+                  reset(); // reset form
 
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Registered successfully",
-                showConfirmButton: false,
-                timer: 1500,
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Registered successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+
+                  // navigate to home after register
+                  navigate("/");
+                }
               });
-
-              // navigate to home after register
-              navigate("/");
-            }
-          });
+            })
+            .catch((err) => {
+              Swal.fire({
+                icon: "warning",
+                title: err.message,
+              });
+            });
         })
         .catch((err) => {
           Swal.fire({
@@ -62,7 +83,7 @@ export default function Register() {
             title: err.message,
           });
         });
-    });
+    }
   };
 
   return (
@@ -115,16 +136,9 @@ export default function Register() {
 
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="photoUrl1" value="Profile Image" />
+            <Label htmlFor="file-upload" value="Profile Image" />
           </div>
-
-          <TextInput
-            {...register("photo")}
-            id="photoUrl1"
-            type="text"
-            placeholder="photo url"
-            required
-          />
+          <FileInput id="file-upload" {...register("photo")} />
         </div>
 
         {/* password field */}

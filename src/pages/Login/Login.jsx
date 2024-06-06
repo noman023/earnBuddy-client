@@ -12,7 +12,7 @@ import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const { logIn, loginWithGoogle, user } = useAuth();
+  const { logIn, loginWithGoogle } = useAuth();
   const axiosInstace = useAxiosInstance();
 
   const { register, handleSubmit, reset } = useForm();
@@ -30,8 +30,11 @@ export default function Login() {
         reset(); // reset form
 
         Swal.fire({
+          position: "top-end",
           icon: "success",
           title: "Logged in successfully",
+          showConfirmButton: false,
+          timer: 1500,
         });
 
         navigateTo();
@@ -46,10 +49,10 @@ export default function Login() {
 
   const handleGoogleLogin = () => {
     loginWithGoogle()
-      .then(() => {
+      .then((res) => {
         // google user's role will be worker and coins 10
         const userInfo = {
-          email: user.email,
+          email: res.user.email,
           role: "worker",
           coins: 10,
         };
