@@ -33,7 +33,6 @@ export default function Register() {
       updateUserProfile(data.name, data.photo)
         .then(() => {
           const userInfo = {
-            name: data.name,
             email: data.email,
             role: data.role,
             coins,

@@ -8,12 +8,14 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const { logIn, loginWithGoogle } = useAuth();
-  const { register, handleSubmit } = useForm();
+  const { logIn, loginWithGoogle, user } = useAuth();
+  const axiosInstace = useAxiosInstance();
 
+  const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,6 +27,8 @@ export default function Login() {
   const onSubmit = (data) => {
     logIn(data.email, data.password)
       .then(() => {
+        reset(); // reset form
+
         Swal.fire({
           icon: "success",
           title: "Logged in successfully",
@@ -43,9 +47,28 @@ export default function Login() {
   const handleGoogleLogin = () => {
     loginWithGoogle()
       .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Logged in successfully",
+        // google user's role will be worker and coins 10
+        const userInfo = {
+          email: user.email,
+          role: "worker",
+          coins: 10,
+        };
+
+        // create user in db
+        axiosInstace.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            reset(); // reset form
+
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Logged in successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+
+            navigateTo();
+          }
         });
       })
       .catch((err) =>
