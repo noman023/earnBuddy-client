@@ -5,38 +5,65 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+
+import useAuth from "../../hooks/useAuth";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
-  const { createUser } = useAuth();
-
+  const { createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
+
+  const axiosInstace = useAxiosInstance();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Registered successfully",
-        });
+    // add coins based on role
+    const coins = data.role === "worker" ? 10 : 50;
 
-        // navigate to home after register
-        navigate("/");
-      })
-      .catch((err) => {
-        Swal.fire({
-          icon: "warning",
-          title: err.message,
+    createUser(data.email, data.password).then(() => {
+      // update profile
+      updateUserProfile(data.name, data.photo)
+        .then(() => {
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+            role: data.role,
+            coins,
+          };
+
+          // create user in db
+          axiosInstace.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              reset(); // reset form
+
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Registered successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
+              // navigate to home after register
+              navigate("/");
+            }
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "warning",
+            title: err.message,
+          });
         });
-      });
+    });
   };
 
   return (
