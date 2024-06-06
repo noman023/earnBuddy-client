@@ -1,5 +1,5 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -12,8 +12,15 @@ import Swal from "sweetalert2";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { logIn, loginWithGoogle } = useAuth();
-
   const { register, handleSubmit } = useForm();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // navigate after login
+  const navigateTo = () => {
+    navigate(location?.state ? location.state : "/");
+  };
 
   const onSubmit = (data) => {
     logIn(data.email, data.password)
@@ -22,6 +29,8 @@ export default function Login() {
           icon: "success",
           title: "Logged in successfully",
         });
+
+        navigateTo();
       })
       .catch((err) => {
         Swal.fire({

@@ -10,16 +10,19 @@ import {
 import { getAuth } from "firebase/auth";
 
 import { app } from "../firebase/firebase.config";
+import useAxiosInstance from "../hooks/useAxiosInstance";
 
 // create context
 export const AuthContext = createContext(null);
 
+const auth = getAuth(app);
+
 export default function AuthContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setloading] = useState(true);
-
-  const auth = getAuth(app);
   const googleAuthProvider = new GoogleAuthProvider();
+
+  const axiosInstace = useAxiosInstance();
 
   //   create user with email and password
   const createUser = (email, password) => {
@@ -57,7 +60,22 @@ export default function AuthContextProvider({ children }) {
     // observe user's state
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setloading(false);
+
+      // get token and set to the client
+      if (currentUser) {
+        axiosInstace.post("jwt", { email: currentUser.email }).then((res) => {
+          if (res.data.token) {
+            // if token exist in response then set it localstorage
+            localStorage.setItem("access-token", res.data.token);
+
+            setloading(false);
+          }
+        });
+      } else {
+        // if user does not exist/logout then remove token from localstorage
+        localStorage.removeItem("access-token");
+        setloading(false);
+      }
     });
 
     // stop ovserver
