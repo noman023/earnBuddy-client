@@ -26,44 +26,43 @@ export default function Register() {
 
   const onSubmit = (data) => {
     // add coins based on role
-    console.log(data);
     const coins = data.role === "worker" ? 10 : 50;
 
-    // createUser(data.email, data.password).then(() => {
-    //   // update profile
-    //   updateUserProfile(data.name, data.photo)
-    //     .then(() => {
-    //       const userInfo = {
-    //         email: data.email,
-    //         role: data.role,
-    //         coins,
-    //       };
+    createUser(data.email, data.password).then(() => {
+      // update profile
+      updateUserProfile(data.name, data.photo)
+        .then(() => {
+          const userInfo = {
+            email: data.email,
+            role: data.role,
+            coins,
+          };
 
-    //       // create user in db
-    //       axiosInstace.post("/users", userInfo).then((res) => {
-    //         if (res.data.insertedId) {
-    //           reset(); // reset form
+          // create user in db
+          axiosInstace.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              reset(); // reset form
 
-    //           Swal.fire({
-    //             position: "top-end",
-    //             icon: "success",
-    //             title: "Registered successfully",
-    //             showConfirmButton: false,
-    //             timer: 1500,
-    //           });
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Registered successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
 
-    //           // navigate to home after register
-    //           navigate("/");
-    //         }
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       Swal.fire({
-    //         icon: "warning",
-    //         title: err.message,
-    //       });
-    //     });
-    // });
+              // navigate to home after register
+              navigate("/");
+            }
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "warning",
+            title: err.message,
+          });
+        });
+    });
   };
 
   return (
