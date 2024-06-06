@@ -21,7 +21,7 @@ export default function Login() {
 
   // navigate after login
   const navigateTo = () => {
-    navigate(location?.state ? location.state : "/");
+    navigate(location?.state ? location.state : "/dashboard");
   };
 
   const onSubmit = (data) => {
