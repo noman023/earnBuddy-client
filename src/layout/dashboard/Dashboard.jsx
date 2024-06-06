@@ -9,28 +9,28 @@ export default function Dashboard() {
       <Header />
 
       <div className="md:flex ">
-        <div className="md:w-1/4 bg-gray-200 rounded-md p-4 md:min-h-screen">
-          <ul className="space-y-3 text-black font-bold">
+        <div className="md:w-1/4 bg-blue-500 rounded-md p-4 md:min-h-screen">
+          <ul className="space-y-3 text-white">
             <li>
-              <Link className="flex gap-2 items-center hover:text-blue-600">
+              <Link className="flex gap-2 items-center hover:text-gray-300">
                 <FaHome /> Home
               </Link>
             </li>
 
             <li>
-              <Link className="flex gap-2 items-center hover:text-blue-600">
+              <Link className="flex gap-2 items-center hover:text-gray-300">
                 <FaList /> Task List
               </Link>
             </li>
 
             <li>
-              <Link className="flex gap-2 items-center hover:text-blue-600">
+              <Link className="flex gap-2 items-center hover:text-gray-300">
                 <FaList /> My Submission
               </Link>
             </li>
 
             <li>
-              <Link className="flex gap-2 items-center hover:text-blue-600">
+              <Link className="flex gap-2 items-center hover:text-gray-300">
                 <FaWallet /> Withdrawals
               </Link>
             </li>
