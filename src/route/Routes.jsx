@@ -49,9 +49,9 @@ const routes = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      // <PrivateRoute>
-      <Dashboard />
-      // </PrivateRoute>
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
     ),
     children: [
       // worker's routes
