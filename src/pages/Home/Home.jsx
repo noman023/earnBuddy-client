@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import Slider from "../../components/Slider/Slider";
+import Slider from "./Slider/Slider";
+import FeatureSection from "./FeatureSection/FeatureSection";
 
 export default function Home() {
   return (
@@ -9,8 +10,7 @@ export default function Home() {
       </Helmet>
 
       <Slider />
-
-      <h1>home</h1>
+      <FeatureSection />
     </div>
   );
 }

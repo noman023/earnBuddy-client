@@ -1,6 +1,6 @@
-import paymentImg from "../../assets/payment.jpg";
-import workImg from "../../assets/work.jpg";
-import manageWorkImg from "../../assets/manage-work.jpg";
+import paymentImg from "../../../assets/slider/payment.jpg";
+import workImg from "../../../assets/slider/work.jpg";
+import manageWorkImg from "../../../assets/slider/manage-work.jpg";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
