@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 
-const axiosInstaceSecure = axios.create({
+const axiosInstanceSecure = axios.create({
   baseURL: "http://localhost:8000",
 });
 
@@ -11,7 +11,7 @@ export default function useAxiosInstanceSecure() {
   const { logOut } = useAuth();
 
   // adding interceptor in request to add authorization header for every secure call to the api
-  axiosInstaceSecure.interceptors.request.use(
+  axiosInstanceSecure.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem("access-token");
 
@@ -24,7 +24,7 @@ export default function useAxiosInstanceSecure() {
   );
 
   // intercepts 400, 401 and 403 status
-  axiosInstaceSecure.interceptors.response.use(
+  axiosInstanceSecure.interceptors.response.use(
     (response) => {
       return response;
     },
@@ -40,5 +40,5 @@ export default function useAxiosInstanceSecure() {
     }
   );
 
-  return axiosInstaceSecure;
+  return axiosInstanceSecure;
 }
