@@ -1,4 +1,6 @@
-import userImg from "../../assets/user.png";
+import paymentImg from "../../assets/payment.jpg";
+import workImg from "../../assets/work.jpg";
+import manageWorkImg from "../../assets/manage-work.jpg";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -26,7 +28,7 @@ export default function Slider() {
         <SwiperSlide>
           <div className="relative">
             <img
-              src={userImg}
+              src={workImg}
               className="w-full h-[400px]"
               alt="Slider Image 1"
             />
@@ -48,7 +50,7 @@ export default function Slider() {
         <SwiperSlide>
           <div className="relative">
             <img
-              src={userImg}
+              src={manageWorkImg}
               className="w-full h-[400px]"
               alt="Slider Image 1"
             />
@@ -71,7 +73,7 @@ export default function Slider() {
         <SwiperSlide>
           <div className="relative">
             <img
-              src={userImg}
+              src={paymentImg}
               className="w-full h-[400px]"
               alt="Slider Image 1"
             />
