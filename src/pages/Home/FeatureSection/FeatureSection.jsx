@@ -6,7 +6,7 @@ import FeatureItem from "./FeatureItem";
 
 export default function FeatureSection() {
   return (
-    <div className="flex flex-col md:flex-row text-blue-600 my-10">
+    <div className="flex flex-col md:flex-row text-blue-600 my-24">
       <FeatureItem
         img={incomeImg}
         heading={"Earn Coins by Completing Tasks"}
