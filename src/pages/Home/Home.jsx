@@ -4,6 +4,7 @@ import FeatureSection from "./FeatureSection/FeatureSection";
 
 import HowItWorksSection from "./HowItWorks/HowItWorks";
 import TopEarners from "./TopEarners/TopEarners";
+import Reviews from "./Reviews/Reviews";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <FeatureSection />
       <HowItWorksSection />
       <TopEarners />
+      <Reviews />
     </div>
   );
 }
