@@ -13,10 +13,10 @@ export default function TopEarnersCard() {
           <h5 className="text-2xl">Jack Grelish</h5>
 
           <p>
-            Coin: <span className="text-blue-500 font-bold">100</span>
+            Total Coins: <span className="text-blue-500 font-bold">100</span>
           </p>
           <p>
-            Job Done: <span className="text-blue-600 font-bold">6</span>
+            Job Done: <span className="text-blue-500 font-bold">6</span>
           </p>
         </div>
       </div>
