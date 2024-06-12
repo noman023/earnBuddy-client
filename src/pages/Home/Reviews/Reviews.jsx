@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import ReviewCard from "./ReviewCard";
 import useAxiosInstance from "../../../hooks/useAxiosInstance";
 import { useQuery } from "@tanstack/react-query";
+import SpinnerComponent from "../../../components/Spinner/Spinner";
 
 export default function Reviews() {
   const axiosInstance = useAxiosInstance();
@@ -31,29 +32,33 @@ export default function Reviews() {
       </div>
 
       <div className="">
-        <Swiper
-          effect={"coverflow"}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={"auto"}
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[EffectCoverflow, Pagination]}
-        >
-          {data.map((data, idx) => (
-            <SwiperSlide data={data} key={idx}>
-              <ReviewCard />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {isPending ? (
+          <SpinnerComponent />
+        ) : (
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={"auto"}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[EffectCoverflow, Pagination]}
+          >
+            {data.map((data, idx) => (
+              <SwiperSlide key={idx}>
+                <ReviewCard data={data} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </div>
   );
