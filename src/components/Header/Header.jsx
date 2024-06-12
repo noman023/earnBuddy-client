@@ -6,17 +6,23 @@ import Swal from "sweetalert2";
 import userImg from "../../assets/user.png";
 import useAuth from "../../hooks/useAuth";
 import SpinnerComponent from "../Spinner/Spinner";
+import useUserRole from "../../hooks/useUserRole";
 
 export default function Header() {
   const { user, logOut, loading } = useAuth();
   const navigate = useNavigate();
 
+  const { userRole, isPending } = useUserRole();
+
   const handleLogOut = () => {
     logOut()
       .then(() => {
         Swal.fire({
+          position: "top-end",
           icon: "success",
-          title: "LogOut successfully",
+          title: "Logout successfully",
+          showConfirmButton: false,
+          timer: 1500,
         });
 
         // navigate to home after logout
@@ -78,10 +84,28 @@ export default function Header() {
       <Navbar.Collapse>
         <Navbar.Link href="/">Home</Navbar.Link>
 
+        {/* dashboard link based on userRole */}
+        {isPending ? (
+          <SpinnerComponent />
+        ) : (
+          <>
+            {user && userRole === "worker" && (
+              <Navbar.Link href="/dashboard/workerHome">Dashboard</Navbar.Link>
+            )}
+
+            {user && userRole === "taskCreator" && (
+              <Navbar.Link href="/dashboard/taskCreatorHome">
+                Dashboard
+              </Navbar.Link>
+            )}
+            {user && userRole === "admin" && (
+              <Navbar.Link href="/dashboard/adminHome">Dashboard</Navbar.Link>
+            )}
+          </>
+        )}
+
         {user ? (
           <>
-            <Navbar.Link href="/dashboard">Dashboard</Navbar.Link>
-
             <div
               title="Your Available Coins"
               className="bg-blue-500 px-3 py-1 rounded flex gap-1 font-bold text-white"

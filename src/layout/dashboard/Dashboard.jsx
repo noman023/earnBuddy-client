@@ -1,10 +1,19 @@
 import { Link, Outlet } from "react-router-dom";
-import { FaHome, FaList, FaWallet } from "react-icons/fa";
+
+import { FaHome, FaTasks, FaHistory } from "react-icons/fa";
+import { MdAddTask, MdManageAccounts } from "react-icons/md";
+import { ImCoinDollar } from "react-icons/im";
+import { GrTasks } from "react-icons/gr";
+import { BiMoneyWithdraw } from "react-icons/bi";
 
 import Header from "../../components/Header/Header";
 import FooterComponent from "../../components/Footer/Footer";
+import useUserRole from "../../hooks/useUserRole";
+import SpinnerComponent from "../../components/Spinner/Spinner";
 
 export default function Dashboard() {
+  const { userRole, isPending } = useUserRole();
+
   const workerList = (
     <>
       <li>
@@ -21,7 +30,7 @@ export default function Dashboard() {
           to={"taskList"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaList /> Task List
+          <FaTasks /> Task List
         </Link>
       </li>
 
@@ -30,7 +39,7 @@ export default function Dashboard() {
           to={"submission"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaList /> My Submission
+          <GrTasks /> My Submission
         </Link>
       </li>
 
@@ -39,7 +48,7 @@ export default function Dashboard() {
           to={"withdrawals"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaWallet /> Withdrawals
+          <BiMoneyWithdraw /> Withdrawals
         </Link>
       </li>
     </>
@@ -61,7 +70,7 @@ export default function Dashboard() {
           to={"addTask"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaList /> Add a New Task
+          <MdAddTask /> Add a New Task
         </Link>
       </li>
 
@@ -70,7 +79,7 @@ export default function Dashboard() {
           to={"myTasks"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaList /> My Tasks
+          <FaTasks /> My Tasks
         </Link>
       </li>
 
@@ -79,7 +88,7 @@ export default function Dashboard() {
           to={"coinPurchase"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaWallet /> Purchase Coin
+          <ImCoinDollar /> Purchase Coin
         </Link>
       </li>
       <li>
@@ -87,7 +96,7 @@ export default function Dashboard() {
           to={"payments"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaWallet /> Payments History
+          <FaHistory /> Payments History
         </Link>
       </li>
     </>
@@ -109,7 +118,7 @@ export default function Dashboard() {
           to={"manageTask"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaList /> Manage Tasks
+          <FaTasks /> Manage Tasks
         </Link>
       </li>
 
@@ -118,7 +127,7 @@ export default function Dashboard() {
           to={"manageUsers"}
           className="flex gap-2 items-center hover:text-gray-300"
         >
-          <FaList /> Manage Users
+          <MdManageAccounts /> Manage Users
         </Link>
       </li>
     </>
@@ -130,7 +139,17 @@ export default function Dashboard() {
 
       <div className="md:flex ">
         <div className="md:w-1/4 bg-blue-500 rounded-md p-4 md:min-h-screen">
-          <ul className="space-y-3 text-white">{workerList}</ul>
+          <ul className="space-y-3 text-white">
+            {isPending ? (
+              <SpinnerComponent />
+            ) : (
+              <>
+                {userRole === "worker" && workerList}
+                {userRole === "taskCreator" && taskCreatorList}
+                {userRole === "admin" && adminList}
+              </>
+            )}
+          </ul>
         </div>
 
         <div className="md:w-3/4 flex flex-col">
