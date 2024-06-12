@@ -52,6 +52,8 @@ export default function Login() {
       .then((res) => {
         // google user's role will be worker and coins 10
         const userInfo = {
+          name: res.user.displayName,
+          photoURL: res.user.photoURL,
           email: res.user.email,
           role: "worker",
           coins: 10,
