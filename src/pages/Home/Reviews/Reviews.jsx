@@ -1,5 +1,26 @@
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Pagination } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
 import ReviewCard from "./ReviewCard";
+import useAxiosInstance from "../../../hooks/useAxiosInstance";
+import { useQuery } from "@tanstack/react-query";
+
 export default function Reviews() {
+  const axiosInstance = useAxiosInstance();
+
+  const { data = [], isPending } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: async () => {
+      const res = await axiosInstance.get("reviews");
+      return res.data;
+    },
+  });
+
   return (
     <div className="my-24">
       <div className="text-3xl md:text-4xl text-black text-center mb-10">
@@ -10,7 +31,29 @@ export default function Reviews() {
       </div>
 
       <div className="">
-        <ReviewCard />
+        <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={"auto"}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[EffectCoverflow, Pagination]}
+        >
+          {data.map((data, idx) => (
+            <SwiperSlide data={data} key={idx}>
+              <ReviewCard />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );
