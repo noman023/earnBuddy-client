@@ -7,12 +7,14 @@ import userImg from "../../assets/user.png";
 import useAuth from "../../hooks/useAuth";
 import SpinnerComponent from "../Spinner/Spinner";
 import useUserRole from "../../hooks/useUserRole";
+import useUserCoins from "../../hooks/useUserCoins";
 
 export default function Header() {
   const { user, logOut, loading } = useAuth();
   const navigate = useNavigate();
 
   const { userRole, isPending } = useUserRole();
+  const { userCoins, isCoinsPending } = useUserCoins();
 
   const handleLogOut = () => {
     logOut()
@@ -111,7 +113,7 @@ export default function Header() {
               className="bg-blue-500 px-3 py-1 rounded flex gap-1 font-bold text-white"
             >
               <CiBadgeDollar className="text-xl" />
-              <p>100</p>
+              <p>{!isCoinsPending ? userCoins.coins : 0}</p>
             </div>
           </>
         ) : (
