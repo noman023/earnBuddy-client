@@ -85,7 +85,7 @@ export default function AddTask() {
 
   return (
     <form
-      className="flex flex-col gap-4 border rounded-lg p-3"
+      className="flex flex-col gap-4 border rounded-lg p-3 mb-5"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
