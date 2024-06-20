@@ -7,6 +7,7 @@ import useAuth from "../../../../hooks/useAuth";
 import Swal from "sweetalert2";
 
 import TableRow from "./TableRow";
+import { Helmet } from "react-helmet-async";
 
 export default function MyTasks() {
   const { user } = useAuth();
@@ -60,37 +61,47 @@ export default function MyTasks() {
   };
 
   return (
-    <div className="overflow-x-auto ">
-      <Table hoverable>
-        <Table.Head>
-          <Table.HeadCell>Task Title</Table.HeadCell>
-          <Table.HeadCell>Quantity</Table.HeadCell>
-          <Table.HeadCell>Payable Amount</Table.HeadCell>
-          <Table.HeadCell>Actions</Table.HeadCell>
-        </Table.Head>
+    <>
+      <Helmet>
+        <title>Employer || Tasks</title>
+      </Helmet>
 
-        <Table.Body className="divide-y">
-          {/* spinner while fetching data */}
-          {isPending && (
-            <Table.Row>
-              <Table.Cell>
-                <SpinnerComponent />
-              </Table.Cell>
-            </Table.Row>
-          )}
+      <div className="overflow-x-auto ">
+        <Table hoverable>
+          <Table.Head>
+            <Table.HeadCell>Task Title</Table.HeadCell>
+            <Table.HeadCell>Quantity</Table.HeadCell>
+            <Table.HeadCell>Payable Amount</Table.HeadCell>
+            <Table.HeadCell>Actions</Table.HeadCell>
+          </Table.Head>
 
-          {/* if no data show text  */}
-          {data.length === 0 && (
-            <Table.Row>
-              <Table.Cell className="text-red-500">No task found!</Table.Cell>
-            </Table.Row>
-          )}
+          <Table.Body className="divide-y">
+            {/* spinner while fetching data */}
+            {isPending && (
+              <Table.Row>
+                <Table.Cell>
+                  <SpinnerComponent />
+                </Table.Cell>
+              </Table.Row>
+            )}
 
-          {data.map((task) => (
-            <TableRow key={task._id} task={task} handleDelete={handleDelete} />
-          ))}
-        </Table.Body>
-      </Table>
-    </div>
+            {/* if no data show text  */}
+            {data.length === 0 && (
+              <Table.Row>
+                <Table.Cell className="text-red-500">No task found!</Table.Cell>
+              </Table.Row>
+            )}
+
+            {data.map((task) => (
+              <TableRow
+                key={task._id}
+                task={task}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </Table.Body>
+        </Table>
+      </div>
+    </>
   );
 }

@@ -1,3 +1,12 @@
+import { Helmet } from "react-helmet-async";
+
 export default function PaymentHistory() {
-  return <div>PaymentHistory</div>;
+  return (
+    <>
+      <Helmet>
+        <title>Employer || All Payments</title>
+      </Helmet>
+      PaymentHistory
+    </>
+  );
 }
