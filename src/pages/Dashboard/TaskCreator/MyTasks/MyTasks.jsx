@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button, Table } from "flowbite-react";
+import { Table } from "flowbite-react";
 
-import useAxiosInstanceSecure from "../../../hooks/useAxiosInstanceSecure";
-import SpinnerComponent from "../../../components/Spinner/Spinner";
-import useAuth from "../../../hooks/useAuth";
+import useAxiosInstanceSecure from "../../../../hooks/useAxiosInstanceSecure";
+import SpinnerComponent from "../../../../components/Spinner/Spinner";
+import useAuth from "../../../../hooks/useAuth";
 import Swal from "sweetalert2";
+
+import TableRow from "./TableRow";
 
 export default function MyTasks() {
   const { user } = useAuth();
@@ -85,21 +87,7 @@ export default function MyTasks() {
           )}
 
           {data.map((task) => (
-            <Table.Row key={task._id} className="bg-white ">
-              <Table.Cell className=" ">{task.title}</Table.Cell>
-              <Table.Cell>{task.quantity}</Table.Cell>
-              <Table.Cell>{task.payAmount} Coins</Table.Cell>
-
-              <Table.Cell className="flex gap-1 flex-col md:flex-row">
-                <Button>Update</Button>
-                <Button
-                  color={"failure"}
-                  onClick={() => handleDelete(task._id)}
-                >
-                  Delete
-                </Button>
-              </Table.Cell>
-            </Table.Row>
+            <TableRow key={task._id} task={task} handleDelete={handleDelete} />
           ))}
         </Table.Body>
       </Table>
