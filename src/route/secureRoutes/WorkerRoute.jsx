@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useUserRole from "../../hooks/useUserRole";
 import SpinnerComponent from "../../components/Spinner/Spinner";
 
-export default function WorkerRoute() {
+export default function WorkerRoute({ children }) {
   const { user, loading } = useAuth();
   const { userRole, isPending } = useUserRole();
   const location = useLocation();

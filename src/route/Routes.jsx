@@ -9,7 +9,7 @@ import Dashboard from "../layout/dashboard/Dashboard";
 import PrivateRoute from "./secureRoutes/PrivateRoute";
 
 // worker pages
-import WorkerHome from "../pages/Dashboard/Worker/Home";
+import WorkerHome from "../pages/Dashboard/Worker/WorkerHome";
 import TaskList from "../pages/Dashboard/Worker/TaskList";
 import Submissions from "../pages/Dashboard/Worker/Submissions";
 import Withdrawals from "../pages/Dashboard/Worker/Withdrawals";
