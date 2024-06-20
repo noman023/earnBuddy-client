@@ -25,6 +25,9 @@ import PaymentHistory from "../pages/Dashboard/TaskCreator/PaymentHistory";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import ManageTasks from "../pages/Dashboard/Admin/ManageTasks";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AdminRoute from "./secureRoutes/AdminRoute";
+import TaskCreatorRoute from "./secureRoutes/TaskCreatorRoute";
+import WorkerRoute from "./secureRoutes/WorkerRoute";
 
 const routes = createBrowserRouter([
   {
@@ -57,53 +60,101 @@ const routes = createBrowserRouter([
       // worker's routes
       {
         path: "workerHome",
-        element: <WorkerHome />,
+        element: (
+          <WorkerRoute>
+            <WorkerHome />
+          </WorkerRoute>
+        ),
       },
       {
         path: "taskList",
-        element: <TaskList />,
+        element: (
+          <WorkerRoute>
+            <TaskList />
+          </WorkerRoute>
+        ),
       },
       {
         path: "submission",
-        element: <Submissions />,
+        element: (
+          <WorkerRoute>
+            <Submissions />
+          </WorkerRoute>
+        ),
       },
       {
         path: "withdrawals",
-        element: <Withdrawals />,
+        element: (
+          <WorkerRoute>
+            <Withdrawals />,
+          </WorkerRoute>
+        ),
       },
       // Task Creator's routes
       {
         path: "taskCreatorHome",
-        element: <TaskCreatorHome />,
+        element: (
+          <TaskCreatorRoute>
+            <TaskCreatorHome />
+          </TaskCreatorRoute>
+        ),
       },
       {
         path: "addTask",
-        element: <AddTask />,
+        element: (
+          <TaskCreatorRoute>
+            <AddTask />
+          </TaskCreatorRoute>
+        ),
       },
       {
         path: "myTasks",
-        element: <MyTasks />,
+        element: (
+          <TaskCreatorRoute>
+            <MyTasks />
+          </TaskCreatorRoute>
+        ),
       },
       {
         path: "coinPurchase",
-        element: <CoinPurchase />,
+        element: (
+          <TaskCreatorRoute>
+            <CoinPurchase />
+          </TaskCreatorRoute>
+        ),
       },
       {
         path: "payments",
-        element: <PaymentHistory />,
+        element: (
+          <TaskCreatorRoute>
+            <PaymentHistory />
+          </TaskCreatorRoute>
+        ),
       },
       // Admin's routes
       {
         path: "adminHome",
-        element: <AdminHome />,
+        element: (
+          <AdminRoute>
+            <AdminHome />
+          </AdminRoute>
+        ),
       },
       {
         path: "manageTask",
-        element: <ManageTasks />,
+        element: (
+          <AdminRoute>
+            <ManageTasks />
+          </AdminRoute>
+        ),
       },
       {
         path: "manageUsers",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />
+          </AdminRoute>
+        ),
       },
     ],
   },
