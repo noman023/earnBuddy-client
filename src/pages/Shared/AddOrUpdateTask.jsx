@@ -161,7 +161,7 @@ export default function AddOrUpdateTask({ taskData, closeModal }) {
           type="number"
           placeholder="ex: 1 or 2"
           required
-          readOnly
+          readOnly={taskData}
         />
       </div>
 
@@ -176,7 +176,7 @@ export default function AddOrUpdateTask({ taskData, closeModal }) {
           type="number"
           placeholder="Amount for every submission ex: 2/5$ "
           required
-          readOnly
+          readOnly={taskData}
         />
       </div>
 
@@ -195,7 +195,7 @@ export default function AddOrUpdateTask({ taskData, closeModal }) {
               selected={field.value}
               onChange={field.onChange}
               className="bg-gray-100"
-              readOnly
+              readOnly={taskData}
             />
           )}
         />
