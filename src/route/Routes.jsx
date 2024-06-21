@@ -76,7 +76,9 @@ const routes = createBrowserRouter([
         ),
       },
       {
-        path: "taskDetails",
+        path: "taskDetails/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:8000/tasks/${params.id}`),
         element: (
           <WorkerRoute>
             <TaskDetails />

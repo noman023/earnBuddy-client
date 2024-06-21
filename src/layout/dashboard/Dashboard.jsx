@@ -153,7 +153,7 @@ export default function Dashboard() {
         </div>
 
         <div className="md:w-3/4 flex flex-col">
-          <div className="flex-grow mx-2">
+          <div className="flex-grow m-2">
             <Outlet />
           </div>
 

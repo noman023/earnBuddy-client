@@ -7,19 +7,13 @@ import { Link } from "react-router-dom";
 export default function TaskList() {
   const axiosInstanceSecure = useAxiosInstanceSecure();
 
-  const {
-    data = [],
-    isPending,
-    refetch,
-  } = useQuery({
+  const { data = [] } = useQuery({
     queryKey: ["taskList"],
     queryFn: async () => {
       const res = await axiosInstanceSecure.get(`/tasks`);
       return res.data;
     },
   });
-
-  // console.log(data);
 
   return (
     <>
@@ -55,7 +49,7 @@ export default function TaskList() {
               </p>
             </div>
 
-            <Link to={"/dashboard/taskDetails"}>
+            <Link to={`/dashboard/taskDetails/${task._id}`}>
               <Button>View Details</Button>
             </Link>
           </Card>
