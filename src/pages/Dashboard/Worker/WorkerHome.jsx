@@ -1,14 +1,36 @@
 import { Badge, Table } from "flowbite-react";
 import { Helmet } from "react-helmet-async";
+import { useQuery } from "@tanstack/react-query";
+
+import StatCard from "../../Shared/StatCard";
+import useAxiosInstanceSecure from "../../../hooks/useAxiosInstanceSecure";
+import useAuth from "../../../hooks/useAuth";
 
 export default function WorkerHome() {
+  const { user } = useAuth();
+  const axiosInstanceSecure = useAxiosInstanceSecure();
+
+  const { data = {} } = useQuery({
+    queryKey: ["workerStats"],
+    queryFn: async () => {
+      const res = await axiosInstanceSecure.get(`/workerStats/${user.email}`);
+      return res.data;
+    },
+  });
+
   return (
     <>
       <Helmet>
         <title>Employee || Home</title>
       </Helmet>
 
-      <div className="overflow-x-auto ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <StatCard text={"Available Coins"} amount={data.availableCoins} />
+        <StatCard text={"Total Submission"} amount={data.totalSubmissions} />
+        <StatCard text={"Total Earnings"} amount={`$${data.totalEarnings}`} />
+      </div>
+
+      <div className="overflow-x-auto mt-5">
         <Table hoverable>
           <Table.Head>
             <Table.HeadCell>Task Title</Table.HeadCell>
