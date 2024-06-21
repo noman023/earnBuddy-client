@@ -28,6 +28,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AdminRoute from "./secureRoutes/AdminRoute";
 import TaskCreatorRoute from "./secureRoutes/TaskCreatorRoute";
 import WorkerRoute from "./secureRoutes/WorkerRoute";
+import TaskDetails from "../pages/Dashboard/Worker/TaskDetails";
 
 const routes = createBrowserRouter([
   {
@@ -71,6 +72,14 @@ const routes = createBrowserRouter([
         element: (
           <WorkerRoute>
             <TaskList />
+          </WorkerRoute>
+        ),
+      },
+      {
+        path: "taskDetails",
+        element: (
+          <WorkerRoute>
+            <TaskDetails />
           </WorkerRoute>
         ),
       },
