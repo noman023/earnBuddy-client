@@ -3,6 +3,7 @@ import { Button, Label, Textarea } from "flowbite-react";
 
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 import TaskCountdown from "./TaskCountDown";
 import useAxiosInstanceSecure from "../../../../hooks/useAxiosInstanceSecure";
@@ -14,7 +15,7 @@ export default function TaskDetails() {
 
   const navigate = useNavigate();
   const axiosInstanceSecure = useAxiosInstanceSecure();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   const {
     title,
@@ -62,63 +63,70 @@ export default function TaskDetails() {
   };
 
   return (
-    <div className="border border-gray-300 p-5 space-y-3">
-      <div className="border border-gray-300 flex flex-col lg:flex-row gap-4 p-2">
-        <div className="">
-          <img src={photoURL} alt="task photo" className="max-w-96" />
-        </div>
+    <>
+      <Helmet>
+        <title>Employee || Task Details</title>
+      </Helmet>
 
-        <div className="space-y-2">
-          <h5 className="text-xl font-bold tracking-tight text-gray-900">
-            {title}
-          </h5>
+      <div className="border border-gray-300 p-5 space-y-3">
+        <div className="border border-gray-300 flex flex-col lg:flex-row gap-4 p-2">
+          <div className="">
+            <img src={photoURL} alt="task photo" className="max-w-96" />
+          </div>
 
-          <p className="font-normal text-gray-500">{details}</p>
+          <div className="space-y-2">
+            <h5 className="text-xl font-bold tracking-tight text-gray-900">
+              {title}
+            </h5>
 
-          <div className="text-black space-y-2">
-            <div className="flex gap-5">
-              <p>
-                <span className="text-blue-500">Available Submit:</span>{" "}
-                {quantity}
+            <p className="font-normal text-gray-500">{details}</p>
+
+            <div className="text-black space-y-2">
+              <div className="flex gap-5">
+                <p>
+                  <span className="text-blue-500">Available Submit:</span>{" "}
+                  {quantity}
+                </p>
+                <p>
+                  <span className="text-blue-500">Reward:</span> {payAmount}{" "}
+                  Coins
+                </p>
+              </div>
+              {/* <span className="text-blue-500"></span> */}
+              <p className="font-normal">
+                <span className="text-blue-500">Deadline: </span>
+                <TaskCountdown completionDate={lastDate} />
               </p>
               <p>
-                <span className="text-blue-500">Reward:</span> {payAmount} Coins
+                <span className="text-blue-500">What to Submit: </span>
+                {submitInfo}
+              </p>
+              <p>
+                <span className="text-blue-500">Employer: </span>
+                {creatorName}
               </p>
             </div>
-            {/* <span className="text-blue-500"></span> */}
-            <p className="font-normal">
-              <span className="text-blue-500">Deadline: </span>
-              <TaskCountdown completionDate={lastDate} />
-            </p>
-            <p>
-              <span className="text-blue-500">What to Submit: </span>
-              {submitInfo}
-            </p>
-            <p>
-              <span className="text-blue-500">Employer: </span>
-              {creatorName}
-            </p>
           </div>
         </div>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <div className="mb-2 block">
+              <Label value="Submission Details" />
+            </div>
+
+            <Textarea
+              {...register("subData")}
+              placeholder="Submit your work here."
+              required
+            />
+          </div>
+
+          <Button type="submit" className="mt-3 mx-auto">
+            Submit Task
+          </Button>
+        </form>
       </div>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <div className="mb-2 block">
-            <Label value="Submission Details" />
-          </div>
-
-          <Textarea
-            {...register("subData")}
-            placeholder="Submit your work here."
-            required
-          />
-        </div>
-
-        <Button type="submit" className="mt-3 mx-auto">
-          Submit Task
-        </Button>
-      </form>
-    </div>
+    </>
   );
 }
