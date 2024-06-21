@@ -10,10 +10,22 @@ export default function WorkerHome() {
   const { user } = useAuth();
   const axiosInstanceSecure = useAxiosInstanceSecure();
 
+  // fetch stats
   const { data = {} } = useQuery({
     queryKey: ["workerStats"],
     queryFn: async () => {
       const res = await axiosInstanceSecure.get(`/workerStats/${user.email}`);
+      return res.data;
+    },
+  });
+
+  // fetch submission data
+  const { data: approvedSub, isPending } = useQuery({
+    queryKey: ["approvedSub"],
+    queryFn: async () => {
+      const res = await axiosInstanceSecure.get(
+        `/submission/${user.email}?role=worker`
+      );
       return res.data;
     },
   });
@@ -40,16 +52,25 @@ export default function WorkerHome() {
           </Table.Head>
 
           <Table.Body className="divide-y">
-            <Table.Row>
-              <Table.Cell>Video Editing</Table.Cell>
-              <Table.Cell>10</Table.Cell>
-              <Table.Cell>Mojammel Noman</Table.Cell>
-              <Table.Cell>
-                <Badge color="success" size={"sm"} className="p-1">
-                  Approved
-                </Badge>
-              </Table.Cell>
-            </Table.Row>
+            {!isPending && approvedSub.length === 0 && (
+              <Table.Row>
+                <Table.Cell className="text-red-500">No data found!</Table.Cell>
+              </Table.Row>
+            )}
+
+            {!isPending &&
+              approvedSub.map((task) => (
+                <Table.Row key={task._id}>
+                  <Table.Cell>{task.title}</Table.Cell>
+                  <Table.Cell>{task.payAmount}</Table.Cell>
+                  <Table.Cell>{task.creatorName}</Table.Cell>
+                  <Table.Cell>
+                    <Badge color="success" size={"sm"} className="p-1">
+                      Approved
+                    </Badge>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table>
       </div>
