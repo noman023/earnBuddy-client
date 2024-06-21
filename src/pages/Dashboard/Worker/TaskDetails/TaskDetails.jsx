@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 import TaskCountdown from "./TaskCountDown";
-import useAxiosInstanceSecure from "../../../hooks/useAxiosInstanceSecure";
-import useAuth from "../../../hooks/useAuth";
+import useAxiosInstanceSecure from "../../../../hooks/useAxiosInstanceSecure";
+import useAuth from "../../../../hooks/useAuth";
 
 export default function TaskDetails() {
   const wholeTask = useLoaderData();

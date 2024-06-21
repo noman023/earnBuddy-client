@@ -10,8 +10,9 @@ import PrivateRoute from "./secureRoutes/PrivateRoute";
 
 // worker pages
 import WorkerHome from "../pages/Dashboard/Worker/WorkerHome";
+import MySubmissions from "../pages/Dashboard/Worker/MySubmissions";
 import TaskList from "../pages/Dashboard/Worker/TaskList";
-import Submissions from "../pages/Dashboard/Worker/Submissions";
+import TaskDetails from "../pages/Dashboard/Worker/TaskDetails/TaskDetails";
 import Withdrawals from "../pages/Dashboard/Worker/Withdrawals";
 
 // task creator pages
@@ -25,10 +26,11 @@ import PaymentHistory from "../pages/Dashboard/TaskCreator/PaymentHistory";
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
 import ManageTasks from "../pages/Dashboard/Admin/ManageTasks";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+
+// role based routes
 import AdminRoute from "./secureRoutes/AdminRoute";
 import TaskCreatorRoute from "./secureRoutes/TaskCreatorRoute";
 import WorkerRoute from "./secureRoutes/WorkerRoute";
-import TaskDetails from "../pages/Dashboard/Worker/TaskDetails";
 
 const routes = createBrowserRouter([
   {
@@ -89,7 +91,7 @@ const routes = createBrowserRouter([
         path: "submission",
         element: (
           <WorkerRoute>
-            <Submissions />
+            <MySubmissions />
           </WorkerRoute>
         ),
       },
