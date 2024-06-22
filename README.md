@@ -1,6 +1,7 @@
 # EarnBuddy
 
 The EarnBuddy Platform is designed to provide users with opportunities to complete small tasks and earn rewards. The platform accommodates three distinct roles: Worker, TaskCreator, and Admin. Each role is tailored with specific functionalities to ensure seamless task management, task creation, and platform administration.
+Live [link](https://earnbuddy-dbb3d.web.app)
 
 ## Features
 
