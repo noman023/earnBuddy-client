@@ -12,9 +12,7 @@ export default function MySubmissions() {
   const { data = [] } = useQuery({
     queryKey: ["mySubmission"],
     queryFn: async () => {
-      const res = await axiosInstanceSecure.get(
-        `/submission?email=${user.email}`
-      );
+      const res = await axiosInstanceSecure.get(`/submissionAll/${user.email}`);
       return res.data;
     },
   });
