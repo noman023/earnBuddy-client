@@ -17,7 +17,7 @@ import TaskDetails from "../pages/Dashboard/Worker/TaskDetails/TaskDetails";
 import Withdrawals from "../pages/Dashboard/Worker/Withdrawals";
 
 // task creator pages
-import TaskCreatorHome from "../pages/Dashboard/TaskCreator/TaskCreatorHome";
+import TaskCreatorHome from "../pages/Dashboard/TaskCreator/TaskCreatorHome/TaskCreatorHome";
 import AddTask from "../pages/Dashboard/TaskCreator/AddTask";
 import MyTasks from "../pages/Dashboard/TaskCreator/MyTasks/MyTasks";
 import CoinPurchase from "../pages/Dashboard/TaskCreator/CoinPurchase";
