@@ -31,8 +31,6 @@ export default function AdminHome() {
     },
   });
 
-  console.log(adminStats);
-
   const handlePayment = (id) => {
     Swal.fire({
       title: "Are you sure?",
