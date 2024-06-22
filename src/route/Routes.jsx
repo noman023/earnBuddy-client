@@ -25,7 +25,7 @@ import PaymentHistory from "../pages/Dashboard/TaskCreator/PaymentHistory";
 
 // admin pages
 import AdminHome from "../pages/Dashboard/Admin/AdminHome";
-import ManageTasks from "../pages/Dashboard/Admin/ManageTasks";
+import ManageTasks from "../pages/Dashboard/Admin/ManageTask/ManageTasks";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 
 // role based routes
