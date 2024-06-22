@@ -20,7 +20,7 @@ import Withdrawals from "../pages/Dashboard/Worker/Withdrawals";
 import TaskCreatorHome from "../pages/Dashboard/TaskCreator/TaskCreatorHome/TaskCreatorHome";
 import AddTask from "../pages/Dashboard/TaskCreator/AddTask";
 import MyTasks from "../pages/Dashboard/TaskCreator/MyTasks/MyTasks";
-import CoinPurchase from "../pages/Dashboard/TaskCreator/CoinPurchase";
+import CoinPurchase from "../pages/Dashboard/TaskCreator/CoinPurchase/CoinPurchase";
 import PaymentHistory from "../pages/Dashboard/TaskCreator/PaymentHistory";
 
 // admin pages
