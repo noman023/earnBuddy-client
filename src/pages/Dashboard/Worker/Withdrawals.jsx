@@ -48,7 +48,7 @@ export default function Withdrawals() {
     const postData = {
       workerName: user.displayName,
       workerEmail: user.email,
-      withdrawCoin: data.coins,
+      withdrawCoin: parseInt(data.coins),
       withdrawAmount: withdrawAmount,
       paymentSystem: data.paySystem,
       accountNum: data.accountNum,
