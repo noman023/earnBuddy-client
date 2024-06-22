@@ -19,7 +19,7 @@ export default function CheckOutForm() {
     axiosInstanceSecure
       .post("/create-payment-intent", { price: 100 })
       .then((res) => {
-        console.log(res.data.clientSecret);
+        // console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
   }, [axiosInstanceSecure]);
@@ -44,10 +44,10 @@ export default function CheckOutForm() {
     });
 
     if (error) {
-      console.log("[error]", error);
+      //   console.log("[error]", error);
       setError(error.message);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
+      //   console.log("[PaymentMethod]", paymentMethod);
       setError("");
     }
 
@@ -63,7 +63,7 @@ export default function CheckOutForm() {
       });
 
     if (confirmError) {
-      console.log("confirm error");
+      //   console.log("confirm error");
     } else {
       if (paymentIntent.status === "succeeded") {
         setTransactionId(paymentIntent.id);
