@@ -3,11 +3,13 @@ import { Button } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import useAxiosInstanceSecure from "../../../../hooks/useAxiosInstanceSecure";
 import useAuth from "../../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-export default function CheckOutForm() {
+export default function CheckOutForm({ coinPackage }) {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [transactionId, setTransactionId] = useState("");
+  const navigate = useNavigate();
 
   const axiosInstanceSecure = useAxiosInstanceSecure();
   const { user } = useAuth();
@@ -17,12 +19,11 @@ export default function CheckOutForm() {
 
   useEffect(() => {
     axiosInstanceSecure
-      .post("/create-payment-intent", { price: 100 })
+      .post("/create-payment-intent", { price: coinPackage.price })
       .then((res) => {
-        // console.log(res.data.clientSecret);
         setClientSecret(res.data.clientSecret);
       });
-  }, [axiosInstanceSecure]);
+  }, [axiosInstanceSecure, coinPackage.price]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +67,36 @@ export default function CheckOutForm() {
       //   console.log("confirm error");
     } else {
       if (paymentIntent.status === "succeeded") {
-        setTransactionId(paymentIntent.id);
+        // console.log(paymentIntent);
+        // data to save in db
+        const paymentData = {
+          email: user.email,
+          price: coinPackage.price,
+          coins: coinPackage.coins,
+          transactionId: paymentIntent.id,
+          date: new Date(),
+        };
+
+        // post data to db and increase user coins
+        axiosInstanceSecure
+          .post("/payments", paymentData)
+          .then((res) => {
+            if (res.data.insertedId) {
+              navigate("/dashboard/coinPurchase");
+
+              Swal.fire({
+                title: "Done!",
+                text: "Your coins purchase has been successfull.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "warning",
+              title: err.message,
+            });
+          });
       }
     }
   };
@@ -92,6 +122,7 @@ export default function CheckOutForm() {
         />
 
         <Button
+          className="mt-5 mx-auto"
           type="submit"
           disabled={!stripe || !clientSecret}
           color={"blue"}

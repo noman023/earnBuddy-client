@@ -32,6 +32,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import AdminRoute from "./secureRoutes/AdminRoute";
 import TaskCreatorRoute from "./secureRoutes/TaskCreatorRoute";
 import WorkerRoute from "./secureRoutes/WorkerRoute";
+import PaymentCard from "../pages/Dashboard/TaskCreator/CoinPurchase/PaymentCard";
 
 const routes = createBrowserRouter([
   {
@@ -146,6 +147,14 @@ const routes = createBrowserRouter([
         element: (
           <TaskCreatorRoute>
             <PaymentHistory />
+          </TaskCreatorRoute>
+        ),
+      },
+      {
+        path: "paymentCard",
+        element: (
+          <TaskCreatorRoute>
+            <PaymentCard />
           </TaskCreatorRoute>
         ),
       },
