@@ -31,9 +31,11 @@ export default function useAxiosInstanceSecure() {
     async (error) => {
       const status = error.response.status;
       // for 401 or 403 logout the user and navigate to the login
-      if (status === 400 || status === 401 || status === 403) {
+      if (status === 400 || status === 401) {
         await logOut();
         navigate("/login");
+      } else if (status === 403) {
+        navigate("/forbidden");
       }
 
       return Promise.reject(error);

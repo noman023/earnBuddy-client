@@ -7,6 +7,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Dashboard from "../layout/dashboard/Dashboard";
 import PrivateRoute from "./secureRoutes/PrivateRoute";
+import ForbiddenRoute from "./ForbiddenRoute";
 
 // worker pages
 import WorkerHome from "../pages/Dashboard/Worker/WorkerHome";
@@ -49,6 +50,10 @@ const routes = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/forbidden",
+        element: <ForbiddenRoute />,
       },
     ],
   },
