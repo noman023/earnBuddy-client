@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
 
-import TaskCountdown from "./TaskCountDown";
 import useAxiosInstanceSecure from "../../../../hooks/useAxiosInstanceSecure";
 import useAuth from "../../../../hooks/useAuth";
+import TaskDetailsCard from "../../../Shared/TaskDetailsCard";
 
 export default function TaskDetails() {
   const wholeTask = useLoaderData();
@@ -16,17 +16,6 @@ export default function TaskDetails() {
   const navigate = useNavigate();
   const axiosInstanceSecure = useAxiosInstanceSecure();
   const { user } = useAuth();
-
-  const {
-    title,
-    details,
-    photoURL,
-    quantity,
-    payAmount,
-    lastDate,
-    submitInfo,
-    creatorName,
-  } = wholeTask;
 
   const onSubmit = (data) => {
     // add user info to whole task
@@ -69,45 +58,7 @@ export default function TaskDetails() {
       </Helmet>
 
       <div className="border border-gray-300 p-5 space-y-3">
-        <div className="border border-gray-300 flex flex-col lg:flex-row gap-4 p-2">
-          <div className="">
-            <img src={photoURL} alt="task photo" className="max-w-96" />
-          </div>
-
-          <div className="space-y-2">
-            <h5 className="text-xl font-bold tracking-tight text-gray-900">
-              {title}
-            </h5>
-
-            <p className="font-normal text-gray-500">{details}</p>
-
-            <div className="text-black space-y-2">
-              <div className="flex gap-5">
-                <p>
-                  <span className="text-blue-500">Available Submit:</span>{" "}
-                  {quantity}
-                </p>
-                <p>
-                  <span className="text-blue-500">Reward:</span> {payAmount}{" "}
-                  Coins
-                </p>
-              </div>
-              {/* <span className="text-blue-500"></span> */}
-              <p className="font-normal">
-                <span className="text-blue-500">Deadline: </span>
-                <TaskCountdown completionDate={lastDate} />
-              </p>
-              <p>
-                <span className="text-blue-500">What to Submit: </span>
-                {submitInfo}
-              </p>
-              <p>
-                <span className="text-blue-500">Employer: </span>
-                {creatorName}
-              </p>
-            </div>
-          </div>
-        </div>
+        <TaskDetailsCard task={wholeTask} />
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
