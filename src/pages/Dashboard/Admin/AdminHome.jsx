@@ -5,6 +5,7 @@ import useAxiosInstanceSecure from "../../../hooks/useAxiosInstanceSecure";
 import { useQuery } from "@tanstack/react-query";
 import SpinnerComponent from "../../../components/Spinner/Spinner";
 import Swal from "sweetalert2";
+import StatCard from "../../Shared/StatCard";
 
 export default function AdminHome() {
   const axiosInstanceSecure = useAxiosInstanceSecure();
@@ -20,6 +21,17 @@ export default function AdminHome() {
       return res.data;
     },
   });
+
+  // fetch admin stats
+  const { data: adminStats = {} } = useQuery({
+    queryKey: ["adminStats"],
+    queryFn: async () => {
+      const res = await axiosInstanceSecure.get(`/adminStats`);
+      return res.data;
+    },
+  });
+
+  console.log(adminStats);
 
   const handlePayment = (id) => {
     Swal.fire({
@@ -62,7 +74,16 @@ export default function AdminHome() {
         <title>Admin || Home</title>
       </Helmet>
 
-      <div className="overflow-x-auto ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <StatCard text={"Total Users"} amount={adminStats.totalUsers} />
+        <StatCard text={"Total Coins"} amount={adminStats.totalCoins} />
+        <StatCard
+          text={"Total Payments"}
+          amount={`$${adminStats.totalPayments}`}
+        />
+      </div>
+
+      <div className="overflow-x-auto mt-6">
         <Table hoverable>
           <Table.Head>
             <Table.HeadCell>Employee Name</Table.HeadCell>
