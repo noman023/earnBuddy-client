@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 
 const axiosInstanceSecure = axios.create({
-  // baseURL: "https://earn-buddy-server.vercel.app",
-  baseURL: "http://localhost:8000",
+  baseURL: "https://earn-buddy-server.vercel.app",
+  // baseURL: "http://localhost:8000",
 });
 
 export default function useAxiosInstanceSecure() {
