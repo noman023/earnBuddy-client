@@ -21,7 +21,7 @@ export default function AdminHome() {
     },
   });
 
-  const hanldePayment = (id) => {
+  const handlePayment = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Do you want to approve this payment?!",
@@ -32,7 +32,7 @@ export default function AdminHome() {
       confirmButtonText: "Yes, Approve!",
     }).then((result) => {
       if (result.isConfirmed) {
-        //
+        // approve user payment and delete withdraw post
         axiosInstanceSecure
           .delete(`/withdrawApprove/${id}`)
           .then((res) => {
@@ -104,7 +104,7 @@ export default function AdminHome() {
                 <Table.Cell>
                   <Button
                     color={"blue"}
-                    onClick={() => hanldePayment(post._id)}
+                    onClick={() => handlePayment(post._id)}
                   >
                     Payment Approve
                   </Button>
