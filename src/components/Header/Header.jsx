@@ -8,6 +8,15 @@ import useAuth from "../../hooks/useAuth";
 import SpinnerComponent from "../Spinner/Spinner";
 import useUserRole from "../../hooks/useUserRole";
 import useUserCoins from "../../hooks/useUserCoins";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown, Power } from "lucide-react";
 
 export default function Header() {
   const { user, logOut, loading } = useAuth();
@@ -81,6 +90,43 @@ export default function Header() {
           )}
         </Dropdown>
         <Navbar.Toggle />
+      </div>
+
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus-visible:outline-none">
+            <ChevronDown className="w-[22px] h-[22px] text-gray-200" />
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent className="bg-white absolute -right-7 bottom-6 mb-2">
+            <DropdownMenuLabel className="text-center">
+              My Account
+            </DropdownMenuLabel>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem>
+              <Link
+                to="/profile"
+                className="block w-full text-center text-[16px]"
+              >
+                Profile
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem className="p-0 hover:bg-transparent mt-2">
+              <button
+                // onClick={handleLogout}
+                className="flex w-full items-center justify-center gap-x-2 border border-gray-200 p-2 rounded-md bg-red-400 text-white"
+              >
+                <span>
+                  <Power />
+                </span>
+                LogOut
+              </button>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <Navbar.Collapse>
